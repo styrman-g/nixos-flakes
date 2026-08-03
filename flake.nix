@@ -6,7 +6,9 @@
     # replace 'joes-desktop' with your hostname here.
     nixosConfigurations.thinkpad = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [ ./configuration.nix ];
+      modules = [
+        ./hardware-configuration.nix
+        ./configuration.nix ];
     };
   };
 }

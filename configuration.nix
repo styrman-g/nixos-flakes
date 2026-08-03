@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
+      ./hardware-configuration.nix
     ];
 
   # Bootloader.
@@ -118,15 +118,24 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  
+  # Use Emacs overlay. Required for emacs 28+
+  services.emacs.package = pkgs.emacs-unstable;
+
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+    }))
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim 
+    emacs
     thunderbird
     wget
     alsa-utils
-    emacs
     ripgrep
     findutils
     fd
@@ -145,10 +154,33 @@
     starship
     fastfetch
     bat
+    catppuccin-gtk
+    catppuccin-grub
+    catppuccin-qt5ct
+    lxappearance
+    libsForQt5.qt5ct
+    calibre
+    kdePackages.kleopatra
+    dunst
+    gimp
+    htop
+    libreoffice
+    mpv
+    vlc
+    qbittorrent
+    rsync
+    sxiv
+    zsh
+    signal-desktop
+    localsend
+    proton-vpn
+    element-desktop
+    synology-drive-client
   ];
 
   fonts.packages = with pkgs; [
   jetbrains-mono
+  hack-font
   nerd-fonts.jetbrains-mono
   ]; 
   fonts.fontconfig = {
