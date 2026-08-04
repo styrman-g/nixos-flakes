@@ -118,21 +118,16 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
-  # Use Emacs overlay. Required for emacs 28+
-  services.emacs.package = pkgs.emacs-unstable;
 
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-    }))
+  (import (builtins.fetchTarball https://github.com/nix-community/emacs-overlay/archive/master.tar.gz))
   ];
-
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim 
-    emacs
+    emacsGcc
     thunderbird
     wget
     alsa-utils
